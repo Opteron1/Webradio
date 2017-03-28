@@ -25,16 +25,21 @@ uint8_t*         ringbuf;                           // Ringbuffer for data
 
 void setup()
 {
-  pinMode(DATA_AVAIL, OUTPUT);                          // This pin will interrupt the STM32Fxxx to get received data
-  Serial.begin(115200UL);                             // For debug
+  pinMode(DATA_AVAIL, OUTPUT);                         // This pin will interrupt the STM32Fxxx to get received data
+  Serial.begin(115200UL);                              // For debug
   Serial.println();
-  system_update_cpu_freq(160U);                       // Set to 80/160 MHz
+  system_update_cpu_freq(160U);                        // Set to 80/160 MHz
   ringbuf = (uint8_t *) malloc(RINGBUFSIZ);            // Create ring buffer
 
   WiFi.persistent(false);                              // Do not save SSID and password
-  WiFi.disconnect();                                    // After restart the router could still keep the old connection
+  WiFi.disconnect();                                   // After restart the router could still keep the old connection
   WiFi.mode(WIFI_STA);                                 // This ESP is a station
   wifi_station_set_hostname((char*)NAME);
+
+  SPISlave.onData([](uint8_t * data, size_t len) {
+#warning declare RX function here
+    });
+  
   SPISlave.begin();
 
   // Print some memory and sketch info
@@ -57,9 +62,9 @@ char* dbgprint(const char* format, ...)
   static char sbuf[DEBUG_BUFFER_SIZE];                 // For debug lines
   va_list varArgs;                                     // For variable number of params
 
-  va_start(varArgs, format);                          // Prepare parameters
+  va_start(varArgs, format);                           // Prepare parameters
   vsnprintf(sbuf, sizeof(sbuf), format, varArgs);      // Format the message
-  va_end(varArgs) ;                                   // End of using parameters
+  va_end(varArgs) ;                                    // End of using parameters
 #ifdef  DEBUG                                          // DEBUG on?
     Serial.print("D: ");                               // Yes, print prefix
     Serial.println(sbuf);                              // and the info

@@ -31,6 +31,7 @@
 u32 wifi_esp8266_get_fw_version(void);
 u8 wifi_esp8266_init(void);
 
+static void wifi_esp8266_ss_pulse(void);
 static u8 wifi_esp8266_sw_reset(void);
 static void wifi_esp8266_hw_reset(void);
 
