@@ -5,11 +5,15 @@
 
 // ESP8266 states
 #define ESP8266_NOT_INSTALLED		(0)
-#define ESP8266_INSTALLED				(1)
+#define ESP8266_INSTALLED			(1)
+
+// Size of comunicating buffer
+#define BUFF_SIZE					(2048)	// Max size of data/packet/address
 
 
 
 // Commands for ESP8266
+#define COMMAND_MSB_BYTE				'#'	// MSB byte of command word
 #define ESP8266_CMD0					0	//Software reset ESP8266
 #define ESP8266_CMD1					1	//Get list of networks
 #define ESP8266_CMD2					2	//Connect to SSID
@@ -25,6 +29,15 @@
 #define ESP8266_RESET_ENABLE()             GPIO_WriteBit(GPIOA, GPIO_Pin_8, Bit_RESET)
 #define ESP8266_RESET_DISABLE()            GPIO_WriteBit(GPIOA, GPIO_Pin_8, Bit_SET)
 
+
+
+typedef struct
+{
+	u16					command;		// Command word
+	u16					length;			// Length
+	char				data[BUFF_SIZE];// Data/packet/address for/from ESP8266
+	u32					checksum;		// Checkusum of command + length + data/packet/address
+} FRAMEBUFFER;
 
 
 
