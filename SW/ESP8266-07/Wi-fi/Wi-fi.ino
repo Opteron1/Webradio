@@ -1,4 +1,6 @@
 #include "SPISlave.h"
+#include "Include/esp_debug.h"
+#include "Include/esp_spi.h"
 #include <ESP8266WiFi.h>
 
 extern "C"
@@ -9,15 +11,12 @@ extern "C"
 // Defines
 #define NAME "Webradio SputnikFM"
 #define VERSION "Wed, 01 Mar 2017 18:15:00 GMT"
-#define DEBUG_BUFFER_SIZE   100U                    //Debug buffer size
-#define DEBUG               1U                      //Enable debug messages
+
 
 // Digital I/O used
 #define DATA_AVAIL          16U                     // GPIO16 interrupts STM32Fxxx for data available
 
 #define RINGBUFSIZ          20000U                  // Ringbuffer for data. 20000 bytes is 160 Kbits, about 1.5 seconds at 128kb bitrate.
-
-char* dbgprint(const char* format, ...);
 
 // Global variables
 uint8_t*         ringbuf;                           // Ringbuffer for data
@@ -53,22 +52,6 @@ void setup()
 
 void loop()
 {
-
-}
-
-
-char* dbgprint(const char* format, ...)
-{
-  static char sbuf[DEBUG_BUFFER_SIZE];                 // For debug lines
-  va_list varArgs;                                     // For variable number of params
-
-  va_start(varArgs, format);                           // Prepare parameters
-  vsnprintf(sbuf, sizeof(sbuf), format, varArgs);      // Format the message
-  va_end(varArgs) ;                                    // End of using parameters
-#ifdef  DEBUG                                          // DEBUG on?
-    Serial.print("D: ");                               // Yes, print prefix
-    Serial.println(sbuf);                              // and the info
-#endif
-  return sbuf ;                                        // Return stored string
+  spi_service();
 }
 
