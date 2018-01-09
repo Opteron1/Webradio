@@ -7,23 +7,85 @@ uint8_t packet_buffer_tail = 0U;
 
 void spi_service(void)
 {
-	if(spi_packet_available() == 0)
+	SPI_packet rx_packet;
+
+	if(spi_packet_available() == 0)	// None packet received.
 	{
 		return;
+	}
+	// Process packet
+	rx_packet = spi_get_packet();
+	if	(check_checksum(rx_packet))	// At least one packet received and checksum is OK process it.
+	{
+		// Acknowledge packet over SPI to the ARM
+		switch(rx_packet.cmd)
+		{
+			case ESP8266_CMD0:	// Software reset ESP8266
+				dbgprint("Soft reset CMD.");
+				ESP.reset();
+			case ESP8266_CMD1:	// Send list of networks to the ARM
+
+				break;
+			case ESP8266_CMD2:	// Connect to SSID
+				//decode_cmd2();
+				break;
+			case ESP8266_CMD3:	// Send data
+
+				break;
+			case ESP8266_CMD4:	// Get data
+
+				break;
+			case ESP8266_CMD5:	// Disconnet from network
+
+				break;
+			case ESP8266_CMD6:	// Get firmware version of ESP8266
+
+				break;
+			default:
+				dbgprint("Unknown command recieved.");
+				break;
+		}
+	}
+	else	// Packet corrupted - CHECKSUM isn't valid.
+	{
+		dbgprint("Corrupted packet.");
+		// Send to the ARM information about corrupted packet.
 	}
 	
 }
 
+/*
+ * Check checksum of received packet
+ */
+uint8_t check_checksum(SPI_packet packet)
+{
+	uint8_t i, chsum = 0;
+
+	chsum = packet_buffer[packet_buffer_head].cmd;
+	chsum += packet_buffer[packet_buffer_head].len;
+	for(i = 0; i < 29; i++)
+	{
+		chsum += packet_buffer[packet_buffer_head].data[i];
+	}
+	if (chsum = packet_buffer[packet_buffer_head].checksum)
+		return 1;
+	else
+		return 0;
+}
+
+/*
+ * Packet was received from ARM over SPI, store it into the buffer.
+ */
 void spi_set_packet(uint8_t * data)
 {
 	uint8_t i;
-	if(spi_buf_available())
+	if(spi_buf_available())	// Space in buffer available, put packet into buffer.
 	{
 		if (packet_buffer_tail < NUM_OF_BUFFS-1)
 		{
 			packet_buffer[packet_buffer_tail].cmd = data[0];
 			packet_buffer[packet_buffer_tail].len = data[1];
-			for(i = 0; i < 30; i++)
+			for(i = 0; i < 29; i++)
 			{
 				packet_buffer[packet_buffer_tail].data[i+2] = data[i+2];
 			}
@@ -34,7 +96,7 @@ void spi_set_packet(uint8_t * data)
 		{
 			packet_buffer[packet_buffer_tail].cmd = data[0];
 			packet_buffer[packet_buffer_tail].len = data[1];
-			for(i = 0; i < 30; i++)
+			for(i = 0; i < 29; i++)
 			{
 				packet_buffer[packet_buffer_tail].data[i+2] = data[i+2];
 			}
@@ -48,6 +110,23 @@ void spi_set_packet(uint8_t * data)
 	}
 }
 
+/*
+ * Get packet from buffer.
+ */
+SPI_packet spi_get_packet(void)
+{
+	SPI_packet pac = packet_buffer[packet_buffer_head];
+
+	if(packet_buffer_head < NUM_OF_BUFFS-1)
+		packet_buffer_head++;
+	else
+		packet_buffer_head = 0;
+	return pac;
+}
+
+/*
+ * Check if any space in buffer are available.
+ */
 uint8_t spi_buf_available(void)
 {
 	uint8_t head, tail;
@@ -67,6 +146,9 @@ uint8_t spi_buf_available(void)
 	return (NUM_OF_BUFFS-1);
 }
 
+/*
+ * New packet are available in buffer.
+ */
 uint8_t spi_packet_available(void)
 {
 	return (packet_buffer_head!=packet_buffer_tail ? 1 : 0);

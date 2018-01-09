@@ -13,7 +13,6 @@
 
 
 // Commands for ESP8266
-#define COMMAND_MSB_BYTE				'#'	// MSB byte of command word
 #define ESP8266_CMD0					0	//Software reset ESP8266
 #define ESP8266_CMD1					1	//Get list of networks
 #define ESP8266_CMD2					2	//Connect to SSID
