@@ -1,0 +1,2 @@
+Buid works in Arduino 1.6.7 but 1.8.5 doesn't.
+If build with SPISlave occurs, copy SPISlave folder into: C:\Program Files (x86)\Arduino\libraries folder.
