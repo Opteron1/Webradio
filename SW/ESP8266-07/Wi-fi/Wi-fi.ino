@@ -1,6 +1,7 @@
 #include "SPISlave.h"
 #include "Include/esp_debug.h"
 #include "Include/esp_spi.h"
+#include "Include/esp_network.h"
 #include <ESP8266WiFi.h>
 
 extern "C"

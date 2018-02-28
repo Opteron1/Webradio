@@ -18,14 +18,17 @@
 
 
 #define NUM_OF_BUFFS	4	//Count of packet buffers
+#define DATA_PART		28	//Count of data bytes in SPI packet
 typedef struct
 {
 	uint8_t		cmd;
-	uint8_t		len;
-	uint8_t		data[29];
+	uint8_t		packet_count;
+	uint8_t		num_of_packet;
+	uint8_t		data[DATA_PART];
 	uint8_t		checksum;
 	
 }SPI_packet;
+
 
 void spi_service(void);
 uint8_t check_checksum(SPI_packet packet);
