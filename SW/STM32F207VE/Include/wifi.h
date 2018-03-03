@@ -5,10 +5,7 @@
 
 // ESP8266 states
 #define ESP8266_NOT_INSTALLED		(0)
-#define ESP8266_INSTALLED			(1)
-
-// Size of comunicating buffer
-#define BUFF_SIZE					(2048)	// Max size of data/packet/address
+#define ESP8266_INSTALLED				(1)
 
 
 
@@ -30,20 +27,10 @@
 
 
 
-typedef struct
-{
-	u16					command;		// Command word
-	u16					length;			// Length
-	char				data[BUFF_SIZE];// Data/packet/address for/from ESP8266
-	u32					checksum;		// Checkusum of command + length + data/packet/address
-} FRAMEBUFFER;
-
-
 
 u32 wifi_esp8266_get_fw_version(void);
 u8 wifi_esp8266_init(void);
 
-static void wifi_esp8266_ss_pulse(void);
 static u8 wifi_esp8266_sw_reset(void);
 static void wifi_esp8266_hw_reset(void);
 

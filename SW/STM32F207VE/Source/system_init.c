@@ -358,7 +358,7 @@ static void v_system_init_gpio_init(void)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 	/* ESP8266 ESP_CS */
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
@@ -494,7 +494,7 @@ static void v_system_init_spi_init(void)
 	SPI_InitTypeDef	SPI_InitStructure;
 	SPI_I2S_DeInit(SPI2);
 	SPI_I2S_DeInit(SPI3);
-	/**** SPI2 - uSD card, FRAM and touchscreen ****/
+	/**** SPI2 - uSD card, ESP8266, FRAM and touchscreen ****/
 	SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
 	SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
 	SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;

@@ -22,16 +22,8 @@ u8 wifi_esp8266_init(void)
 {
 	wifi_esp8266_hw_reset();
 	wifi_esp8266_sw_reset();
-	wifi_esp8266_ss_pulse();
+	
 	return (wifi_esp8266_status);
-}
-
-static void wifi_esp8266_ss_pulse(void)
-{
-	u8 i = 10U;
-	ESP8266_CS_DISABLE();
-	while(i--);					//Delay for generate short pulse for ESP8266 booting
-	ESP8266_CS_ENABLE();
 }
 
 static u8 wifi_esp8266_sw_reset(void)

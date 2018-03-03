@@ -187,7 +187,7 @@ void standby_off(void)
 
 u16 standby(u16 param)
 {
-  u16 i, alarm=0;
+  u16 i, alarm = 0;
   u32 t;
   char tmp[32];
 

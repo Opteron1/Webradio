@@ -20,7 +20,7 @@
 #define DEFAULT_NETMASK                "255.255.255.000"
 #define DEFAULT_ROUTER                 "192.168.001.001"
 #define DEFAULT_DNS                    "192.168.001.001"
-#define DEFAULT_NTP                    "078.046.194.189" //078.046.194.189 = 0.de.pool.ntp.org
+#define DEFAULT_NTP                    "195.113.144.201" //195.113.144.201 = tik.cesnet.cz
 #define DEFAULT_TIMEDIFF               (3600) //seconds (3600sec = 1h = GMT+1)
 #define DEFAULT_SUMMER                 (0)    //summer time on
 
