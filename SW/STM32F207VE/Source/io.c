@@ -120,7 +120,7 @@ s16 ir_rawdata(void)
 {
   s16 data;
 
-  data    = ir_data;
+  data = ir_data;
   ir_data = 0;
 
   return data;
@@ -223,8 +223,8 @@ __irq void EXTI3_IRQHandler(void)
 
 __irq void TIM7_IRQHandler(void)
 {
-	EXTI_InitTypeDef EXTI_InitStructure;	
-	static u16 bit=0, data=0, last_data=0;
+  EXTI_InitTypeDef EXTI_InitStructure;	
+  static u16 bit=0, data=0, last_data=0;
 
   TIM_ClearITPendingBit(TIM7, TIM_IT_Update);
 	
@@ -265,17 +265,17 @@ __irq void TIM7_IRQHandler(void)
     DEBUGOUT("IR: raw %x\r\n", data);
     data = 0;
     ir_status = IR_DETECT;
-		
+
     TIM_ITConfig(TIM7, TIM_IT_Update, DISABLE);
     TIM_SetCounter(TIM7, 0x0000U);		/* GPIOE.7 */
     EXTI_ClearITPendingBit(EXTI_Line7);
-		EXTI_InitStructure.EXTI_Line = EXTI_Line7;
-		EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-		EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
-		EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-		EXTI_Init(&EXTI_InitStructure);
+    EXTI_InitStructure.EXTI_Line = EXTI_Line7;
+    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
+    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+    EXTI_Init(&EXTI_InitStructure);
   }
-	return;
+  return;
 }
 
 u16 ir_getkeyvolm(void)  { return ir_keyvolm; }
@@ -318,7 +318,7 @@ void ir_init(void)
 	ir_data    = 0;
 	ir_status  = 0;
 	RCC_GetClocksFreq(&RCC_Clocks);
- 	ir_1us     = RCC_Clocks.PCLK1_Frequency / 15000000UL;	/* 2ticks@30MHz */
+	ir_1us     = RCC_Clocks.PCLK1_Frequency / 15000000UL;	/* 2ticks@30MHz */
 
 	EXTI_ClearITPendingBit(EXTI_Line7);
 	TIM_ITConfig(TIM7, TIM_IT_Update, DISABLE);
@@ -400,32 +400,36 @@ void cpu_speed(u16 low_speed)
 
   if(low_speed)
   {
-		RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);									// Select HSI as system clock source 16MHz
-		while(RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);			// Wait till HSI is ready
-		RCC_PLLCmd(DISABLE);																		// Disable PLL 120MHz
-		while(RCC_GetSYSCLKSource() != 0x00);										// Wait till HSI is used as system clock source
-		SystemCoreClockUpdate();																// Update variable with current main frequency
+//#if 0
+    RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);						// Select HSI as system clock source 16MHz
+    while(RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);			// Wait till HSI is ready
+    RCC_PLLCmd(DISABLE);										// Disable PLL 120MHz
+    while(RCC_GetSYSCLKSource() != 0x00);						// Wait till HSI is used as system clock source
+    SystemCoreClockUpdate();									// Update variable with current main frequency
     SysTickDisable();
     SysTick_Config(SystemCoreClock/SYSTICK_PERIOD); //100 Hz
     SysTickEnable();
+//#endif
     xv_TFT_SetBacklight(LCD_PWMSTANDBY);
 #warning COMMENT
-		//ssi_speed(0);
+    //ssi_speed(0);
     //vs_ssi_speed(0);
   }
   else
   {
-    RCC_PLLCmd(ENABLE);																		// Speed up, enable PLL 120MHz
-		while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);		// Wait till PLL is ready
-		RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);						// Select PLL as system clock source
-		while(RCC_GetSYSCLKSource() != 0x08);									// Wait till PLL is used as system clock source
-		SystemCoreClockUpdate();															// Update variable with current main frequency
+//#if 0
+    RCC_PLLCmd(ENABLE);										// Speed up, enable PLL 120MHz
+    while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);		// Wait till PLL is ready
+    RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);				// Select PLL as system clock source
+    while(RCC_GetSYSCLKSource() != 0x08);					// Wait till PLL is used as system clock source
+    SystemCoreClockUpdate();								// Update variable with current main frequency
     SysTickDisable();
     SysTick_Config(SystemCoreClock/SYSTICK_PERIOD); //100 Hz
     SysTickEnable();
+//#endif
     xv_TFT_SetBacklight(100);
 #warning COMMENT
-		//ssi_speed(0);
+    //ssi_speed(0);
     //vs_ssi_speed(0);
   }
 
@@ -437,13 +441,13 @@ void cpu_speed(u16 low_speed)
 #ifdef DEBUG
   USART_Cmd(USART6, DISABLE);
   /********** USART6 - DEBUG **********/
-	USART_InitStructure.USART_BaudRate = 115200UL;		/* 115200 Baud */
-	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-	USART_InitStructure.USART_StopBits = USART_StopBits_1;
-	USART_InitStructure.USART_Parity = USART_Parity_No;
-	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-	USART_Init(USART6, &USART_InitStructure);
+  USART_InitStructure.USART_BaudRate = 115200UL;		/* 115200 Baud */
+  USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+  USART_InitStructure.USART_StopBits = USART_StopBits_1;
+  USART_InitStructure.USART_Parity = USART_Parity_No;
+  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+  USART_Init(USART6, &USART_InitStructure);
   USART_Cmd(USART6, ENABLE);
 #endif
 

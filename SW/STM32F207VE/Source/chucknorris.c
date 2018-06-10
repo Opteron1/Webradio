@@ -65,7 +65,7 @@ void chucknorris_fact(u16 nr)
     ini_getentry(CHUCKNORRIS_FILE, tmp, (char*)vs_buf.b8, VS_BUFSIZE);
     xv_TFT_Text(3, 15, (char*)vs_buf.b8, NORMALFONT, RGB(255,255,255), RGB(0,0,0));
 
-    for(i=8000/20; i!=0; i--)
+    for(i=3000/20; i!=0; i--)
     {
       delay_ms(20);
       if(keys_sw() || ir_cmd()) { break; }

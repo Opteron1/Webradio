@@ -398,11 +398,7 @@ void station_init(void)
   station_item     = 0;
   station_status   = STATION_CLOSED;
   station_try      = STATION_TRY;
-/*
-  gbuf.station.name[0] = 0;
-  gbuf.station.info[0] = 0;
-  gbuf.station.addr[0] = 0;
-*/
+
   gbuf.station.name[0] = 0;
   gbuf.station.info[0] = 0;
   gbuf.station.addr[0] = 0;

@@ -38,6 +38,7 @@ void setup()
 
   SPISlave.onData([](uint8_t * data, size_t len) {
 #warning declare RX function here
+    spi_set_packet(data);
     });
   
   SPISlave.begin();

@@ -716,8 +716,8 @@ static void v_system_init_rtc_init(void)
 	//RTC_InitStructure.RTC_HourFormat = RTC_HourFormat_24;
 	//RTC_InitStructure.RTC_SynchPrediv = 256U;
 	//RTC_Init(&RTC_InitStructure);	
-	RCC_RTCCLKCmd(ENABLE);							//Enable RTC clock
-	RTC_WaitForSynchro();								//Wait for RTC registers synchronization
+	RCC_RTCCLKCmd(ENABLE);						//Enable RTC clock
+	RTC_WaitForSynchro();						//Wait for RTC registers synchronization
 }
 
 static void v_system_init_syscfg_init(void)
@@ -791,8 +791,7 @@ static void v_system_init_tim_init(void)
 	/* Time base configuration */
 	TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
   TIM_TimeBaseStructure.TIM_Period 				= 0xFFFFU;
-  TIM_TimeBaseStructure.TIM_Prescaler 		= 0x001DU;	/* 0.5 us = 60MHz/(29+1) */
-  TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+  TIM_TimeBaseStructure.TIM_Prescaler 		= 0x001DU;	/* 0.5 us = 30MHz/(29+1) */
   TIM_TimeBaseStructure.TIM_CounterMode 	= TIM_CounterMode_Up;
 	
 	TIM_TimeBaseInit(TIM7, &TIM_TimeBaseStructure);

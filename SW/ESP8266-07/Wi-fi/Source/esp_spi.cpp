@@ -3,9 +3,9 @@
 #include "../Include/esp_network.h"
 
 // SPI packet buffers
-SPI_packet packet_buffer[NUM_OF_BUFFS] = {0};
-uint8_t packet_buffer_head = 0U;
-uint8_t packet_buffer_tail = 0U;
+static SPI_packet packet_buffer[NUM_OF_BUFFS] = {0};
+static uint8_t packet_buffer_head = 0U;
+static uint8_t packet_buffer_tail = 0U;
 
 
 void spi_service(void)
@@ -27,7 +27,7 @@ void spi_service(void)
 				dbgprint("Soft reset CMD.");
 				ESP.reset();
 			case ESP8266_CMD1:	// Send list of networks to the ARM
-
+				dbgprint("CMD1.");
 				break;
 			case ESP8266_CMD2:	// Connect to SSID
 				//decode_cmd2();
@@ -54,7 +54,12 @@ void spi_service(void)
 		dbgprint("Corrupted packet.");
 		// Send to the ARM information about corrupted packet.
 	}
-	
+	dbgprint("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d", rx_packet.cmd,
+	rx_packet.packet_count, rx_packet.num_of_packet, rx_packet.data[0], rx_packet.data[1], rx_packet.data[2], rx_packet.data[3],
+	rx_packet.data[4], rx_packet.data[5], rx_packet.data[6], rx_packet.data[7], rx_packet.data[8], rx_packet.data[9], rx_packet.data[10],
+	rx_packet.data[11], rx_packet.data[12], rx_packet.data[13], rx_packet.data[14], rx_packet.data[15], rx_packet.data[16],
+	rx_packet.data[17], rx_packet.data[18], rx_packet.data[19], rx_packet.data[20], rx_packet.data[21], rx_packet.data[22],
+	rx_packet.data[23], rx_packet.data[24], rx_packet.data[25], rx_packet.data[26], rx_packet.data[27], rx_packet.data[28], rx_packet.checksum);
 }
 
 /*
@@ -157,5 +162,5 @@ uint8_t spi_buf_available(void)
  */
 uint8_t spi_packet_available(void)
 {
-	return (packet_buffer_head!=packet_buffer_tail ? 1 : 0);
+	return ((packet_buffer_head!=packet_buffer_tail) ? 1 : 0);
 }

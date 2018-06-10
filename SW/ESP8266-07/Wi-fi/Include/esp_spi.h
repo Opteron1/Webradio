@@ -17,7 +17,7 @@
 #define ESP8266_CMD6					6	//Get firmware version of ESP8266
 
 
-#define NUM_OF_BUFFS	4	//Count of packet buffers
+#define NUM_OF_BUFFS	32	//Count of packet buffers
 #define DATA_PART		28	//Count of data bytes in SPI packet
 typedef struct
 {
