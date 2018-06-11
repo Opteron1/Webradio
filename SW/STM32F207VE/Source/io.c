@@ -420,8 +420,8 @@ void cpu_speed(u16 low_speed)
   else
   {
 //#if 0
-  	RCC_PCLK1Config(RCC_HCLK_Div4);							// PCLK1 = HCLK/4 30 MHz
-  	TIM7->PSC = 0x001DU;									// TIM7 0.5 us = 30MHz/(29+1)
+    RCC_PCLK1Config(RCC_HCLK_Div4);							// PCLK1 = HCLK/4 30 MHz
+    TIM7->PSC = 0x001DU;									// TIM7 0.5 us = 30MHz/(29+1)
     RCC_PLLCmd(ENABLE);										// Speed up, enable PLL 120MHz
     while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);		// Wait till PLL is ready
     RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);				// Select PLL as system clock source
