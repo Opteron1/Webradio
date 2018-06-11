@@ -501,9 +501,9 @@ void delay_ms(u32 ms)
 
 	RCC_GetClocksFreq(&RCC_Clocks);
 
-	u32 tmp = ms * (RCC_Clocks.PCLK1_Frequency/1000);
+	u32 tmp = ms * (RCC_Clocks.SYSCLK_Frequency/1000);
 	/*
-    ms *= RCC_Clocks.PCLK1_Frequency / 1000 / STM32_CYCLES_PER_LOOP;
+    ms *= RCC_Clocks.SYSCLK_Frequency / 1000 / STM32_CYCLES_PER_LOOP;
 
     __ASM volatile(" mov r0, %[ms] \n\t"
              "1: subs r0, #1 \n\t"
