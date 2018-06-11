@@ -401,12 +401,14 @@ void cpu_speed(u16 low_speed)
   if(low_speed)
   {
 //#if 0
-    RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);						// Select HSI as system clock source 16MHz
+    RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);						// Select HSI as system clock source 25MHz
     while(RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);			// Wait till HSI is ready
     RCC_PLLCmd(DISABLE);										// Disable PLL 120MHz
     while(RCC_GetSYSCLKSource() != 0x00);						// Wait till HSI is used as system clock source
     SystemCoreClockUpdate();									// Update variable with current main frequency
     SysTickDisable();
+    RCC_PCLK1Config(RCC_HCLK_Div1);								// PCLK1 = HCLK 25 MHz
+    TIM7->PSC = 0x0018U;										// TIM7 0.5 us = 25MHz/(24+1)
     SysTick_Config(SystemCoreClock/SYSTICK_PERIOD); //100 Hz
     SysTickEnable();
 //#endif
@@ -418,6 +420,8 @@ void cpu_speed(u16 low_speed)
   else
   {
 //#if 0
+  	RCC_PCLK1Config(RCC_HCLK_Div4);							// PCLK1 = HCLK/4 30 MHz
+  	TIM7->PSC = 0x001DU;									// TIM7 0.5 us = 30MHz/(29+1)
     RCC_PLLCmd(ENABLE);										// Speed up, enable PLL 120MHz
     while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);		// Wait till PLL is ready
     RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);				// Select PLL as system clock source
@@ -493,9 +497,13 @@ void SysTickEnable(void)
 #define STM32_CYCLES_PER_LOOP 6 // This will need tweaking or calculating
 void delay_ms(u32 ms)
 {
-	u32 tmp = ms * (STM32_CLOCK_HZ/1000);
+	RCC_ClocksTypeDef RCC_Clocks;
+
+	RCC_GetClocksFreq(&RCC_Clocks);
+
+	u32 tmp = ms * (RCC_Clocks.PCLK1_Frequency/1000);
 	/*
-    ms *= STM32_CLOCK_HZ / 1000 / STM32_CYCLES_PER_LOOP;
+    ms *= RCC_Clocks.PCLK1_Frequency / 1000 / STM32_CYCLES_PER_LOOP;
 
     __ASM volatile(" mov r0, %[ms] \n\t"
              "1: subs r0, #1 \n\t"
