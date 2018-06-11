@@ -408,7 +408,7 @@ void cpu_speed(u16 low_speed)
     SystemCoreClockUpdate();									// Update variable with current main frequency
     SysTickDisable();
     RCC_PCLK1Config(RCC_HCLK_Div1);								// PCLK1 = HCLK 25 MHz
-    TIM7->PSC = 0x0018U;										// TIM7 0.5 us = 25MHz/(24+1)
+    TIM7->PSC = 0x0018U;										// TIM7 1 us = 25MHz/(24+1)
     SysTick_Config(SystemCoreClock/SYSTICK_PERIOD); //100 Hz
     SysTickEnable();
 //#endif
@@ -421,7 +421,7 @@ void cpu_speed(u16 low_speed)
   {
 //#if 0
     RCC_PCLK1Config(RCC_HCLK_Div4);							// PCLK1 = HCLK/4 30 MHz
-    TIM7->PSC = 0x001DU;									// TIM7 0.5 us = 30MHz/(29+1)
+    TIM7->PSC = 0x001DU;									// TIM7 1 us = 30MHz/(29+1)
     RCC_PLLCmd(ENABLE);										// Speed up, enable PLL 120MHz
     while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);		// Wait till PLL is ready
     RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);				// Select PLL as system clock source
