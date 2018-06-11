@@ -391,8 +391,8 @@ void keys_timerservice(void) //100 Hz
 
 void cpu_speed(u16 low_speed)
 {
-	USART_InitTypeDef USART_InitStructure;
-	
+  USART_InitTypeDef USART_InitStructure;
+
   delay_ms(10);
 
   IntMasterDisable();
@@ -493,7 +493,7 @@ void SysTickEnable(void)
 	SysTick->CTRL |= 0x00000001;
 }
 
-#define STM32_CLOCK_HZ 120000000UL
+//#define STM32_CLOCK_HZ 120000000UL
 #define STM32_CYCLES_PER_LOOP 6 // This will need tweaking or calculating
 void delay_ms(u32 ms)
 {
