@@ -37,9 +37,16 @@ static u8 wifi_esp8266_sw_reset(void)
 
 static void wifi_esp8266_hw_reset(void)
 {
-u8 i = 100U;
+u32 i = 100U;
 	
 	ESP8266_RESET_ENABLE();
-	while(i--);
+	while(i--)
+	{
+		ESP8266_CS_TOGGLE();	// Needed for start booting of ESP8266
+	}
 	ESP8266_RESET_DISABLE();
+	
+	i = 5000000UL;
+	while(i--);							// Wait some time while ESP8266 boots on
+	ESP8266_CS_DISABLE();
 }

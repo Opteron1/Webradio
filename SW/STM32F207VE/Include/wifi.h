@@ -22,6 +22,7 @@
 #define ESP8266_IRQ_READ()                 GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_8);
 #define ESP8266_CS_ENABLE()                GPIO_WriteBit(GPIOC, GPIO_Pin_9, Bit_RESET)
 #define ESP8266_CS_DISABLE()               GPIO_WriteBit(GPIOC, GPIO_Pin_9, Bit_SET)
+#define ESP8266_CS_TOGGLE()								 GPIO_ToggleBits(GPIOC, GPIO_Pin_9);
 #define ESP8266_RESET_ENABLE()             GPIO_WriteBit(GPIOA, GPIO_Pin_8, Bit_RESET)
 #define ESP8266_RESET_DISABLE()            GPIO_WriteBit(GPIOA, GPIO_Pin_8, Bit_SET)
 

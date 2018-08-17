@@ -497,11 +497,12 @@ void SysTickEnable(void)
 #define STM32_CYCLES_PER_LOOP 6 // This will need tweaking or calculating
 void delay_ms(u32 ms)
 {
+	u32 tmp;
 	RCC_ClocksTypeDef RCC_Clocks;
 
 	RCC_GetClocksFreq(&RCC_Clocks);
 
-	u32 tmp = ms * (RCC_Clocks.SYSCLK_Frequency/1000);
+	tmp = ms * (RCC_Clocks.SYSCLK_Frequency/1000UL);
 	/*
     ms *= RCC_Clocks.SYSCLK_Frequency / 1000 / STM32_CYCLES_PER_LOOP;
 
