@@ -31,7 +31,7 @@ const SETTINGSMENU settingsmenu[SETTINGSITEMS] =
   {"Summer-Time  ",     "SUMMER",     F_OR,         0,     1,    0, (void*)eth_setsummer},
   {"Get Time from NTP", "",           F_TIME,       0,     0,    0, 0},
   {"--- IR ---",        "",           F_NONE,       0,     0,    0, 0},
-  {"IR Addr",           "IRADDR",     F_NR,         0,    31,    1, (void*)ir_setaddr},
+  {"IR Addr",           "IRADDR",     F_NR,         0, 65535,    1, (void*)ir_setaddr},
   {"IR Key Power",      "IRKEYPOWER", F_NR,         1,    99,    1, (void*)ir_setkeypower},
   {"IR Key Up   ",      "IRKEYUP",    F_NR,         1,    99,    1, (void*)ir_setkeyup},
   {"IR Key Down ",      "IRKEYDOWN",  F_NR,         1,    99,    1, (void*)ir_setkeydown},
@@ -79,8 +79,7 @@ void settings_read(void)
   alarm_load();
 
   //ir
-#warning COMMENT
-  /*if(ini_getentry(SETTINGS_FILE, "IRADDR", buf, INI_BUFLEN) == 0)
+  if(ini_getentry(SETTINGS_FILE, "IRADDR", buf, INI_BUFLEN) == 0)
   {
     ir_setaddr(atoi(buf));
   }
@@ -108,7 +107,7 @@ void settings_read(void)
   {
     ir_setkeyvolm(atoi(buf));
   }
-	*/
+	
   ir_init();
 
   //audio: vs

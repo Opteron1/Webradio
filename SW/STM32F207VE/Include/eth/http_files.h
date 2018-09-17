@@ -32,11 +32,11 @@ typedef struct
 
 
 //----- PROTOTYPES -----
-unsigned int                           http_printf(char *dst, unsigned int format, unsigned int param, ...);
+unsigned int                  http_printf(char *dst, unsigned int format, unsigned int param, ...);
 u16                           http_fparse(char *dst, u16 file, u16 *start, u16 len, u16 param);
-unsigned int                           http_fdata(unsigned char *dst, unsigned int file, unsigned int start, unsigned int len);
-unsigned int                           http_flen(unsigned int file, unsigned int param);
-unsigned int                           http_ftype(unsigned int file);
+unsigned int                  http_fdata(unsigned char *dst, unsigned int file, unsigned int start, unsigned int len);
+unsigned int                  http_flen(unsigned int file, unsigned int param);
+unsigned int                  http_ftype(unsigned int file);
 u16                           http_fid(const char *name, u16 *param);
 
 

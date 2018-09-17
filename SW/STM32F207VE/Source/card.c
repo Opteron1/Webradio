@@ -123,6 +123,8 @@ u16 card_nextitem(void)
       break;
 
     case 2: //2=random
+			item = rand() % items;
+			card_openitem(item);
       break;
 
     case 3: //3=repeat

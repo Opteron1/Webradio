@@ -6,8 +6,9 @@ BUFFER gbuf;
 
 void buf_service(void)
 {
-  u16 len;
 	/*
+  u16 len;
+
   if(fm_size())
   {
     len = fm_len();

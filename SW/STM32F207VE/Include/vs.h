@@ -13,7 +13,7 @@
 #define DEFAULT_TREBLEFREQ             (15000)  //1000 - 15000 Hz
 
 //VS FiFo
-#define VS_BUFSIZE                     (64*1024) //64 kBytes
+#define VS_BUFSIZE                     (60*1024) //60 kBytes
 
 //VS Type
 #define VS_UNKNOWN                     (0)

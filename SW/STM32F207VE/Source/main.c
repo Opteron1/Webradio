@@ -3,6 +3,7 @@
 #include "chucknorris.h"
 #include "fm_tuner.h"
 #include "wifi.h"
+#include "rtc.h"
 
 
 volatile u16 status = 0, standby_active = 0;
@@ -108,13 +109,14 @@ char* getdate(void)
 void gettime(TIME* t)
 {
   IntMasterDisable();
-  t->year  = timedate.year;
+  /*t->year  = timedate.year;
   t->month = timedate.month;
   t->day   = timedate.day;
   t->wday  = timedate.wday;
   t->h     = timedate.h;
   t->m     = timedate.m;
-  t->s     = timedate.s;
+  t->s     = timedate.s;*/
+  *t = rtc_gettime();
   IntMasterEnable();
 
   return;
@@ -137,6 +139,7 @@ void settime(u32 s)
   timedate.s     = t.s;
   SysTickIntEnable();
   IntMasterEnable();
+	rtc_settime(t);
 
   date_str[0] = day_tab[timedate.wday][0];
   date_str[1] = day_tab[timedate.wday][1];
@@ -280,6 +283,7 @@ int main(void)
 {
 	u16 i;
 	u16 reset_flags = 0;	// (LPWRRST | WWDGRST | IWDGRST | SOFTRST | PORRST | EXT | none | none)
+  u32 t = 0UL;
 	
 	xv_system_init();
 	ir_init();
@@ -384,8 +388,10 @@ int main(void)
   menu_setselcolor(DEFAULT_SELCOLOR);
   menu_setedgecolor(DEFAULT_EDGECOLOR);
 	menu_init();
-	//ADC_SoftwareStartConv(ADC1);
-	//settime(46*365*24*3600UL + (3600*24*30*11) + (3600*24*3) + (3599*24));
+
+  t = ntp_gettime();
+  if(t){settime(t);}
+
 	while(1)
 	{
 		eth_service();

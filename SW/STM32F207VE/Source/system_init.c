@@ -710,13 +710,15 @@ static void v_system_init_pwr_init(void)
 
 static void v_system_init_rtc_init(void)
 {
-	//RTC_InitTypeDef RTC_InitStructure;
+	RTC_InitTypeDef RTC_InitStructure;
+	
+	RTC_StructInit(&RTC_InitStructure);
 	RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);		//Select LSE for clock of RTC
-	//RTC_InitStructure.RTC_AsynchPrediv = 128U;
-	//RTC_InitStructure.RTC_HourFormat = RTC_HourFormat_24;
-	//RTC_InitStructure.RTC_SynchPrediv = 256U;
-	//RTC_Init(&RTC_InitStructure);	
-	RCC_RTCCLKCmd(ENABLE);						//Enable RTC clock
+	RTC_InitStructure.RTC_AsynchPrediv = 127U;	// 127+1
+	RTC_InitStructure.RTC_HourFormat = RTC_HourFormat_24;
+	RTC_InitStructure.RTC_SynchPrediv = 255U;		// 255+1
+	RTC_Init(&RTC_InitStructure);	
+	RCC_RTCCLKCmd(ENABLE);					//Enable RTC clock
 	RTC_WaitForSynchro();						//Wait for RTC registers synchronization
 }
 
