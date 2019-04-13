@@ -1,13 +1,13 @@
 #include "SPISlave.h"
-#include "Include/esp_debug.h"
-#include "Include/esp_spi.h"
-#include "Include/esp_network.h"
+#include "esp_debug.h"
+#include "esp_spi.h"
+#include "esp_network.h"
 #include <ESP8266WiFi.h>
 
-extern "C"
+/*extern "C"
 {
 #include "user_interface.h"
-}
+}*/
 
 // Defines
 #define NAME "Webradio SputnikFM"
@@ -56,4 +56,3 @@ void loop()
 {
   spi_service();
 }
-

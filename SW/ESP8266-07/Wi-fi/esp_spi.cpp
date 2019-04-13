@@ -1,6 +1,6 @@
-#include "../Include/esp_spi.h"
-#include "../Include/esp_debug.h"
-#include "../Include/esp_network.h"
+#include "esp_spi.h"
+#include "esp_debug.h"
+#include "esp_network.h"
 
 // SPI packet buffers
 static SPI_packet packet_buffer[NUM_OF_BUFFS] = {0};
